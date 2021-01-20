@@ -10,23 +10,84 @@
 
 <style>
     .cat-header {
-        border-right: 1px black solid;
-        display: inline;
+        background-color: yellow;
+        text-align: center;
+        margin: 6px 3px;
+    }
+    
+    .cat-row {
+        border: 1px black solid;
+    }
+    
+    .grid-container {
+        /*
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
+        grid-gap: 10px;
+        */
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+    
+    .grid-container>div {
+        min-width: 200px;
+    }
+    
+    .todo {
+        text-align: left;
+        padding: 5px;
+        margin: 5px;
+        background-color: lightblue;
     }
 </style>
 
 <body>
-    <div class="grid">
-        <div class="cat-header">Adimn</div>
-        <div class="cat-header">G-Lines</div>
-        <div class="cat-header">Dev</div>
+    <div class="grid-container">
+        <div class="cat-row">
+            <div class="cat-header">Admin1</div>
+            <div class="todo">Finish app</div>
+            <div class="todo">go home</div>
+            <div class="todo">Klas antwort Masterplan</div>
+            <div class="todo">Finish app</div>
+        </div>
+        <div class="cat-row">
+            <div class="cat-header">Admin2</div>
+            <div class="todo">Finish app</div>
+            <div class="todo">Finish app</div>
+        </div>
+        <div class="cat-row">
+            <div class="cat-header">Admin3</div>
+            <div class="todo">Finish app</div>
+            <div class="todo">Finish app</div>
+        </div>
+        <div class="cat-row">
+            <div class="cat-header">Admin4</div>
+            <div class="todo">Finish app</div>
+            <div class="todo">Finish app</div>
+        </div>
+        <div class="cat-row">
+            <div class="cat-header">Admin5</div>
+            <div class="todo">Finish app</div>
+            <div class="todo">Finish app</div>
+        </div>
     </div>
 </body>
 
 </html>
 
 <script>
+    const TEST_CATS = ["Admin", "G-Lines", "Dev", "Strat"];
     let url = 'http://127.0.0.1:8000/todos/?format=json';
+
+    function constructCategoryRows(cats) {
+        cats.forEach(element => {
+            console.log(element);
+        });
+    }
+
+    constructCategoryRows(TEST_CATS);
 
     async function fetchWrapper() {
         let response = await fetch(url, {
