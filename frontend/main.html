@@ -19,14 +19,42 @@
         border: 1px black solid;
     }
     
-    .grid-container {
+    .soft-prio-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         grid-gap: 10px;
     }
     
-    .grid-container>div {
+    .soft-prio-grid>div {
         min-width: 200px;
+    }
+    
+    .hard-prio-grid {
+        border: solid 1px black;
+        height: 300px;
+        margin: 10px 0px;
+    }
+    
+    .cat-header-hard-prio-container {
+        display: inline;
+    }
+    
+    .pos-1 {
+        position: relative;
+        left: 0px;
+        width: 200px;
+    }
+    
+    .pos-2 {
+        position: relative;
+        left: 200px;
+        width: 200px;
+    }
+    
+    .pos-4 {
+        position: relative;
+        left: 600px;
+        width: 200px;
     }
     
     .todo {
@@ -38,7 +66,12 @@
 </style>
 
 <body>
-    <div class="grid-container">
+    <div class="hard-prio-grid">
+        <div class="todo pos-1">Finish app</div>
+        <div class="todo pos-2">go home</div>
+        <div class="todo pos-4">Klas antwort Masterplan</div>
+    </div>
+    <div class="soft-prio-grid">
         <div class="cat-row">
             <div class="cat-header">Admin1</div>
             <div class="todo">Finish app</div>
