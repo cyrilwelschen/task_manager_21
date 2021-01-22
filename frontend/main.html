@@ -14,7 +14,22 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <p>Some text in the Modal..</p>
+            <form action="http://127.0.0.1:8000/todos/" method="POST">
+                <label for="description">Description:</label><br>
+                <input type="text" id="description" name="description"><br>
+                <label for="category">Category:</label><br>
+                <input type="text" id="category" name="category"><br>
+                <label for="deadline">Deadline:</label><br>
+                <input type="date" id="deadline" name="deadline"><br>
+                <label for="fis-jira">Is Jira:</label><br>
+                <input type="checkbox" id="fis-jira" name="fis-jira"><br>
+                <label for="fis-jira">Is Short:</label><br>
+                <input type="checkbox" id="fis-jira" name="fis-jira"><br>
+                <label for="fhard-prio">Hard Prio:</label><br>
+                <input type="number" id="fhard-prio" name="fhard-prio" value="0"><br>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
         </div>
     </div>
 
