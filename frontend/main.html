@@ -4,101 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
     <title>TaskManager21
     </title>
 </head>
 
-<style>
-    .cat-header {
-        background-color: yellow;
-        text-align: center;
-        margin: 6px 3px;
-    }
-    
-    .cat-row {
-        border: 1px black solid;
-    }
-    
-    .soft-prio-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        grid-gap: 10px;
-    }
-    
-    .soft-prio-grid>div {
-        min-width: 200px;
-    }
-    
-    .hard-prio-grid {
-        border: solid 1px black;
-        height: 300px;
-        margin: 10px 0px;
-    }
-    
-    .cat-header-hard-prio-container {
-        display: inline;
-    }
-    
-    .pos-1 {
-        position: relative;
-        left: 0px;
-        width: 200px;
-    }
-    
-    .pos-2 {
-        position: relative;
-        left: 200px;
-        width: 200px;
-    }
-    
-    .pos-4 {
-        position: relative;
-        left: 600px;
-        width: 200px;
-    }
-    
-    .todo {
-        text-align: left;
-        padding: 5px;
-        margin: 5px;
-        background-color: lightblue;
-    }
-</style>
-
 <body>
-    <div class="hard-prio-grid">
-        <div class="todo pos-1">Finish app</div>
-        <div class="todo pos-2">go home</div>
-        <div class="todo pos-4">Klas antwort Masterplan</div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>Some text in the Modal..</p>
+        </div>
     </div>
-    <div class="soft-prio-grid">
-        <div class="cat-row">
-            <div class="cat-header">Admin1</div>
-            <div class="todo">Finish app</div>
-            <div class="todo">go home</div>
-            <div class="todo">Klas antwort Masterplan</div>
-            <div class="todo">Finish app</div>
-        </div>
-        <div class="cat-row">
-            <div class="cat-header">Admin2</div>
-            <div class="todo">Finish app</div>
-            <div class="todo">Finish app</div>
-        </div>
-        <div class="cat-row">
-            <div class="cat-header">Admin3</div>
-            <div class="todo">Finish app</div>
-            <div class="todo">Finish app</div>
-        </div>
-        <div class="cat-row">
-            <div class="cat-header">Admin4</div>
-            <div class="todo">Finish app</div>
-            <div class="todo">Finish app</div>
-        </div>
-        <div class="cat-row">
-            <div class="cat-header">Admin5</div>
-            <div class="todo">Finish app</div>
-            <div class="todo">Finish app</div>
-        </div>
+
+    <button id="main-add-button" onclick="openModalForNew()">ADD</button>
+    <div id="hard-prio-grid">
+    </div>
+    <div id="soft-prio-grid">
     </div>
 </body>
 
@@ -106,15 +29,54 @@
 
 <script>
     const TEST_CATS = ["Admin", "G-Lines", "Dev", "Strat"];
+    const TEST_TODO_DESCS = ["finish app", "go home"];
     let url = 'http://127.0.0.1:8000/todos/?format=json';
 
-    function constructCategoryRows(cats) {
-        cats.forEach(element => {
-            console.log(element);
+    function openModalForNew() {
+        console.log("open Modal");
+    }
+
+    function constructSoftPrioCatCols(categories) {
+        var softPrioGrid = document.getElementById('soft-prio-grid');
+        categories.forEach(category => {
+            var container = document.createElement('div');
+            container.className = "cat-col";
+            container.setAttribute("id", category);
+            var label = document.createElement('div');
+            label.className = "cat-header";
+            label.innerHTML = category;
+            container.appendChild(label);
+            softPrioGrid.appendChild(container);
         });
     }
 
-    constructCategoryRows(TEST_CATS);
+    function addSoftPrioTodos(todos) {
+        todos.forEach(todo => {
+            const todoDiv = document.createElement('div');
+            todoDiv.className = 'todo';
+            todoDiv.innerHTML = todo.description;
+            const catDiv = document.getElementById(todo.category);
+            catDiv.appendChild(todoDiv);
+        })
+    }
+
+    function addHardPrioTodos(todos) {
+        todos.forEach(todo => {
+            const todoDiv = document.createElement('div');
+            todoDiv.className = 'todo hp-todo';
+            todoDiv.innerHTML = todo.description;
+            const catDiv = document.getElementById('hard-prio-grid');
+            catDiv.appendChild(todoDiv);
+        })
+    }
+
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+
+    let categories = [];
+    let softTodos = [];
+    let hardTodos = [];
 
     async function fetchWrapper() {
         let response = await fetch(url, {
@@ -124,14 +86,39 @@
             },
         });
 
-        if (response.ok) { // if HTTP-status is 200-299
-            // get the response body (the method explained below)
-            let result = await response.json();
-            console.log(result);
+        if (response.ok) {
+            let todos = await response.json();
+            todos.forEach(todo => {
+                categories.push(todo.category);
+                if (todo.hard_prio != 0) {
+                    hardTodos.push(todo);
+                } else {
+                    softTodos.push(todo);
+                }
+            })
+            categories = categories.filter(onlyUnique);
+            constructSoftPrioCatCols(categories);
+            addSoftPrioTodos(softTodos);
+            addHardPrioTodos(hardTodos);
         } else {
+            console.log("Error:")
             console.log(response);
         }
     }
 
     fetchWrapper();
+
+
+    var modal = document.getElementById("myModal");
+    // When the user clicks the button, open the modal 
+    function openModalForNew() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 </script>
