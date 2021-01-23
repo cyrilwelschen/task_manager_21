@@ -47,10 +47,6 @@
     const TEST_TODO_DESCS = ["finish app", "go home"];
     let url = 'http://127.0.0.1:8000/todos/?format=json';
 
-    function openModalForNew() {
-        console.log("open Modal");
-    }
-
     function constructSoftPrioCatCols(categories) {
         var softPrioGrid = document.getElementById('soft-prio-grid');
         categories.forEach(category => {
@@ -115,6 +111,7 @@
             constructSoftPrioCatCols(categories);
             addSoftPrioTodos(softTodos);
             addHardPrioTodos(hardTodos);
+            setTodoClickListeners();
         } else {
             console.log("Error:")
             console.log(response);
@@ -123,10 +120,24 @@
 
     fetchWrapper();
 
+    function setTodoClickListeners() {
+        let allDrawnTodoDivs = document.getElementsByClassName("todo");
+        [...allDrawnTodoDivs].forEach(todoDiv => {
+            todoDiv.addEventListener('click', handleTodoClicked);
+        })
+    };
+
+    function handleTodoClicked() {
+        console.log("clicked Todo");
+    };
 
     var modal = document.getElementById("myModal");
     // When the user clicks the button, open the modal 
     function openModalForNew() {
+        modal.style.display = "block";
+    }
+
+    function openModalWithExistingTodo() {
         modal.style.display = "block";
     }
 
