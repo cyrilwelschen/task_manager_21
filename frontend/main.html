@@ -136,7 +136,7 @@
 
     PUT_TEST_DATA = {
         "url": "http://127.0.0.1:8000/todos/1/",
-        "description": "Des1 This is the moth-f UPDATE :-d",
+        "description": "This is the moth-f UPDATE :-d",
         "category": "Cat1",
         "deadline": "2021-01-27",
         "creation_date": "2021-01-22T21:52:12.495425Z",
@@ -146,17 +146,15 @@
         "hard_prio": 0
     }
 
-    async function putCallToApi(todoJsonData, todoId) {
+    async function putCallToApi(todoDataDictionary, todoId) {
         let response = await fetch(url + `${todoId}/`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(PUT_TEST_DATA),
+            body: JSON.stringify(todoDataDictionary),
         });
-        if (response.ok) {
-            console.log("Put okay");
-        } else {
+        if (!response.ok) {
             console.log("Put error");
             console.log(response);
         }
