@@ -27,8 +27,14 @@
                 <input type="checkbox" id="is_short" name="is_short"><br>
                 <label for="hard_prio">Hard Prio:</label><br>
                 <input type="number" id="hard_prio" name="hard_prio" value="0"><br>
+                <label for="soft_prio">Soft Prio:</label><br>
+                <input type="number" id="soft_prio" name="soft_prio" value="0"><br>
+                <div id="created-modal-div">Created: 10 days ago</div>
+                <div id="id-modal-div">Id: 3</div>
                 <br>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Save">
+                <button class="modal-put">Update</button>
+                <button class="modal-delete">Delete</button>
             </form>
         </div>
     </div>
@@ -45,7 +51,7 @@
 <script>
     const TEST_CATS = ["Admin", "G-Lines", "Dev", "Strat"];
     const TEST_TODO_DESCS = ["finish app", "go home"];
-    let url = 'http://127.0.0.1:8000/todos/?format=json';
+    let url = 'http://127.0.0.1:8000/todos/';
 
     function constructSoftPrioCatCols(categories) {
         var softPrioGrid = document.getElementById('soft-prio-grid');
@@ -66,6 +72,7 @@
             const todoDiv = document.createElement('div');
             todoDiv.className = 'todo';
             todoDiv.innerHTML = todo.description;
+            todoDiv.setAttribute('id', `todo-${getTodoIdFromUrl(todo.url)}`);
             const catDiv = document.getElementById(todo.category);
             catDiv.appendChild(todoDiv);
         })
@@ -76,9 +83,16 @@
             const todoDiv = document.createElement('div');
             todoDiv.className = 'todo hp-todo';
             todoDiv.innerHTML = todo.description;
+            todoDiv.setAttribute('id', `todo-${getTodoIdFromUrl(todo.url)}`);
             const catDiv = document.getElementById('hard-prio-grid');
             catDiv.appendChild(todoDiv);
         })
+    }
+
+    function getTodoIdFromUrl(todoUrl) {
+        const ulrStringBitsArray = todoUrl.split('?')[0].split('/');
+        const iD = ulrStringBitsArray[ulrStringBitsArray.length - 2];
+        return iD
     }
 
     function onlyUnique(value, index, self) {
@@ -89,7 +103,7 @@
     let softTodos = [];
     let hardTodos = [];
 
-    async function fetchWrapper() {
+    async function getTodosFromApiFetch() {
         let response = await fetch(url, {
             method: "GET",
             headers: {
@@ -118,7 +132,37 @@
         }
     }
 
-    fetchWrapper();
+    getTodosFromApiFetch();
+
+    PUT_TEST_DATA = {
+        "url": "http://127.0.0.1:8000/todos/1/",
+        "description": "Des1 This is the moth-f UPDATE :-d",
+        "category": "Cat1",
+        "deadline": "2021-01-27",
+        "creation_date": "2021-01-22T21:52:12.495425Z",
+        "is_short_task": true,
+        "is_jira": true,
+        "soft_prio": 201,
+        "hard_prio": 0
+    }
+
+    async function putCallToApi(todoJsonData, todoId) {
+        let response = await fetch(url + `${todoId}/`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(PUT_TEST_DATA),
+        });
+        if (response.ok) {
+            console.log("Put okay");
+        } else {
+            console.log("Put error");
+            console.log(response);
+        }
+    };
+
+    putCallToApi(PUT_TEST_DATA, 1);
 
     function setTodoClickListeners() {
         let allDrawnTodoDivs = document.getElementsByClassName("todo");
@@ -127,8 +171,11 @@
         })
     };
 
-    function handleTodoClicked() {
-        console.log("clicked Todo");
+    function handleTodoClicked(event) {
+        const todoId = event.target.id.split('-')[1];
+        console.log(todoId);
+        //fillModalFromId(todoId);
+        //modal.style.display = "block";
     };
 
     var modal = document.getElementById("myModal");
