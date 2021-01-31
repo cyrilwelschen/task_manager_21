@@ -32,6 +32,21 @@ function categoriesTodos(todos) {
     categories = categories.filter(onlyUnique);
 }
 
+async function deleteTodo(todoId) {
+    let response = await fetch(MAIN_URL + `${todoId}/`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (response.ok) {
+        console.log("Successfully deleted todo")
+    } else {
+        console.log("Error while deleting");
+        console.log(response);
+    }
+}
+
 async function getSingleTodoFromApi(todoId) {
     let response = await fetch(MAIN_URL + `${todoId}/`, {
         method: "GET",
@@ -78,6 +93,20 @@ async function putCallToApi(todoDataDictionary, todoId) {
     });
     if (!response.ok) {
         console.log("Put error");
+        console.log(response);
+    }
+};
+
+async function postTodoToApi(todoDataDictionary) {
+    let response = await fetch(MAIN_URL, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(todoDataDictionary),
+    });
+    if (!response.ok) {
+        console.log("Post error");
         console.log(response);
     }
 };

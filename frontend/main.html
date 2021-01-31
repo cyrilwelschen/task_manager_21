@@ -14,7 +14,7 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <form id="modal-form" action="http://127.0.0.1:8000/todos/" method="POST">
+            <form id="modal-form">
                 <label for="description">Description:</label><br>
                 <input type="text" id="description" name="description"><br>
                 <label for="category">Category:</label><br>
@@ -32,9 +32,10 @@
                 <div id="created-modal-div">Created: 10 days ago</div>
                 <div id="id-modal-div">Id: 3</div>
                 <br>
-                <input type="submit" value="Save">
-                <button class="modal-put">Update</button>
-                <button class="modal-delete">Delete</button>
+                <button id="modal-create-btn">Create</button>
+                <button id="modal-put-btn">Update</button>
+                <button id="modal-delete-btn">Delete</button>
+                <button id="modal-cancle-btn">Cancle</button>
             </form>
         </div>
     </div>

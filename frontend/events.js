@@ -11,3 +11,28 @@ async function handleTodoClicked(event) {
     fillModalFromTodo(todo);
     modal.style.display = "block";
 };
+
+document.getElementById('modal-cancle-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    closeModal();
+});
+
+document.getElementById('modal-put-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    let newData = getDataFromCurrentModal();
+    putCallToApi(newData, getModalId())
+    closeModal();
+});
+
+document.getElementById('modal-create-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    let newData = getDataFromCurrentModal();
+    postTodoToApi(newData);
+    closeModal();
+});
+
+document.getElementById('modal-delete-btn').addEventListener('click', ev => {
+    ev.preventDefault();
+    deleteTodo(getModalId());
+    closeModal();
+});

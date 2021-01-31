@@ -5,6 +5,11 @@ function setModalId(url) {
     idDiv.innerHTML = `Todo ID: ${url.split('/')[4]}`;
 }
 
+function getModalId(url) {
+    const idDiv = document.getElementById('id-modal-div');
+    return idDiv.innerHTML.split(" ")[2]
+}
+
 function setModalCreatedDays(jsDateString) {
     const dateDiv = document.getElementById('created-modal-div');
     dateDiv.innerHTML = `Creation Date: ${jsDateString.split('T')[0]}`
@@ -27,12 +32,31 @@ function fillModalFromTodo(todo) {
     }
 }
 
+
+function getDataFromCurrentModal() {
+    let dataDict = {};
+    const inputs = document.getElementById('modal-form').elements;
+    for (formElement of inputs) {
+        if (formElement.nodeName == "INPUT") {
+            let key = formElement.id;
+            if (formElement.type == "checkbox") {
+                dataDict[key] = formElement.checked;
+            } else {
+                dataDict[key] = formElement.value;
+            }
+        }
+    }
+    return dataDict;
+}
+
 function openModalForNew() {
+    document.getElementById('id-modal-div').innerHTML = "";
+    document.getElementById('created-modal-div').innerHTML = "";
     modal.style.display = "block";
 }
 
-function openModalWithExistingTodo() {
-    modal.style.display = "block";
+function closeModal() {
+    modal.style.display = "none";
 }
 
 window.onclick = function(event) {
