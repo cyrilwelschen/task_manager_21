@@ -1,8 +1,18 @@
 var modal = document.getElementById("myModal");
 
+function setModalId(url) {
+    const idDiv = document.getElementById('id-modal-div');
+    idDiv.innerHTML = `Todo ID: ${url.split('/')[4]}`;
+}
+
+function setModalCreatedDays(jsDateString) {
+    const dateDiv = document.getElementById('created-modal-div');
+    dateDiv.innerHTML = `Creation Date: ${jsDateString.split('T')[0]}`
+}
+
 function fillModalFromTodo(todo) {
-    for (const [key, val] of Object.entries(todo)) {
-        let currentInput = document.getElementById(key);
+    for (const [apiKey, val] of Object.entries(todo)) {
+        let currentInput = document.getElementById(apiKey);
         if (currentInput) {
             if (currentInput.type == "checkbox") {
                 currentInput.checked = val;
@@ -10,7 +20,9 @@ function fillModalFromTodo(todo) {
                 currentInput.value = val;
             }
         } else {
-            console.log(`Err: Input ${key} not found (from Cyril)`)
+            if (apiKey == "url") { setModalId(val); continue };
+            if (apiKey == "creation_date") { setModalCreatedDays(val); continue };
+            console.log("API Key unknown: " + apiKey);
         }
     }
 }
