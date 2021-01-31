@@ -32,7 +32,6 @@ function fillModalFromTodo(todo) {
     }
 }
 
-
 function getDataFromCurrentModal() {
     let dataDict = {};
     const inputs = document.getElementById('modal-form').elements;
@@ -62,6 +61,9 @@ function openModalForNew() {
     }
     document.getElementById('id-modal-div').innerHTML = "";
     document.getElementById('created-modal-div').innerHTML = "";
+    document.getElementById('modal-create-btn').style.display = "inline-block";
+    document.getElementById('modal-put-btn').style.display = "none";
+    document.getElementById('modal-delete-btn').style.display = "none";
     modal.style.display = "block";
 }
 

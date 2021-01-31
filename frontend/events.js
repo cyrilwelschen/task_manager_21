@@ -9,6 +9,9 @@ async function handleTodoClicked(event) {
     const todoId = event.target.id.split('-')[1];
     const todo = await getSingleTodoFromApi(todoId);
     fillModalFromTodo(todo);
+    document.getElementById('modal-create-btn').style.display = "none";
+    document.getElementById('modal-put-btn').style.display = "inline-block";
+    document.getElementById('modal-delete-btn').style.display = "inline-block";
     modal.style.display = "block";
 };
 
