@@ -1,17 +1,5 @@
 let MAIN_URL = 'http://127.0.0.1:8000/todos/';
 
-PUT_TEST_DATA = {
-    "url": "http://127.0.0.1:8000/todos/1/",
-    "description": "This is moth-f upd :-d",
-    "category": "Cat1",
-    "deadline": "2021-01-27",
-    "creation_date": "2021-01-22T21:52:12.495425Z",
-    "is_short_task": true,
-    "is_jira": true,
-    "soft_prio": 201,
-    "hard_prio": 0
-}
-
 let categories = [];
 let softTodos = [];
 let hardTodos = [];
@@ -32,18 +20,15 @@ function categoriesTodos(todos) {
     categories = categories.filter(onlyUnique);
 }
 
-async function deleteTodo(todoId) {
+async function deleteTodoInApi(todoId) {
     let response = await fetch(MAIN_URL + `${todoId}/`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
         },
     });
-    if (response.ok) {
-        console.log("Successfully deleted todo")
-    } else {
-        console.log("Error while deleting");
-        console.log(response);
+    if (!response.ok) {
+        console.log("Deleting error");
     }
 }
 
@@ -58,12 +43,11 @@ async function getSingleTodoFromApi(todoId) {
         const todo = await response.json();
         return todo
     } else {
-        console.log("Error");
-        console.log(response);
+        console.log("Get single error");
     }
 }
 
-async function getTodosFromApiFetch() {
+async function getAllTodosFromApi() {
     let response = await fetch(MAIN_URL, {
         method: "GET",
         headers: {
@@ -78,12 +62,11 @@ async function getTodosFromApiFetch() {
         addHardPrioTodos(hardTodos);
         setTodoClickListeners();
     } else {
-        console.log("Error:")
-        console.log(response);
+        console.log("Get all error")
     }
 }
 
-async function putCallToApi(todoDataDictionary, todoId) {
+async function putTodoToApi(todoDataDictionary, todoId) {
     let response = await fetch(MAIN_URL + `${todoId}/`, {
         method: "PUT",
         headers: {
@@ -93,7 +76,6 @@ async function putCallToApi(todoDataDictionary, todoId) {
     });
     if (!response.ok) {
         console.log("Put error");
-        console.log(response);
     }
 };
 
@@ -107,9 +89,7 @@ async function postTodoToApi(todoDataDictionary) {
     });
     if (!response.ok) {
         console.log("Post error");
-        console.log(response);
     }
 };
 
-getTodosFromApiFetch();
-//putCallToApi(PUT_TEST_DATA, 1);
+getAllTodosFromApi();

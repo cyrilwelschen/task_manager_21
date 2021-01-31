@@ -50,6 +50,16 @@ function getDataFromCurrentModal() {
 }
 
 function openModalForNew() {
+    const inputs = document.getElementById('modal-form').elements;
+    for (formElement of inputs) {
+        if (formElement.nodeName == "INPUT") {
+            if (formElement.type == "checkbox") {
+                formElement.checked = false;
+            } else {
+                formElement.value = "";
+            }
+        }
+    }
     document.getElementById('id-modal-div').innerHTML = "";
     document.getElementById('created-modal-div').innerHTML = "";
     modal.style.display = "block";

@@ -20,7 +20,7 @@ document.getElementById('modal-cancle-btn').addEventListener('click', ev => {
 document.getElementById('modal-put-btn').addEventListener('click', ev => {
     ev.preventDefault();
     let newData = getDataFromCurrentModal();
-    putCallToApi(newData, getModalId())
+    putTodoToApi(newData, getModalId())
     closeModal();
 });
 
@@ -33,6 +33,6 @@ document.getElementById('modal-create-btn').addEventListener('click', ev => {
 
 document.getElementById('modal-delete-btn').addEventListener('click', ev => {
     ev.preventDefault();
-    deleteTodo(getModalId());
+    deleteTodoInApi(getModalId());
     closeModal();
 });
