@@ -14,7 +14,7 @@
 
     <div id="myModal" class="modal">
         <div class="modal-content">
-            <form action="http://127.0.0.1:8000/todos/" method="POST">
+            <form id="modal-form" action="http://127.0.0.1:8000/todos/" method="POST">
                 <label for="description">Description:</label><br>
                 <input type="text" id="description" name="description"><br>
                 <label for="category">Category:</label><br>
@@ -23,8 +23,8 @@
                 <input type="date" id="deadline" name="deadline"><br>
                 <label for="is_jira">Is Jira:</label><br>
                 <input type="checkbox" id="is_jira" name="is_jira"><br>
-                <label for="is_short">Is Short:</label><br>
-                <input type="checkbox" id="is_short" name="is_short"><br>
+                <label for="is_short_task">Is Short:</label><br>
+                <input type="checkbox" id="is_short_task" name="is_short_task"><br>
                 <label for="hard_prio">Hard Prio:</label><br>
                 <input type="number" id="hard_prio" name="hard_prio" value="0"><br>
                 <label for="soft_prio">Soft Prio:</label><br>

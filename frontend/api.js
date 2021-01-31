@@ -1,4 +1,4 @@
-let url = 'http://127.0.0.1:8000/todos/';
+let MAIN_URL = 'http://127.0.0.1:8000/todos/';
 
 PUT_TEST_DATA = {
     "url": "http://127.0.0.1:8000/todos/1/",
@@ -16,25 +16,48 @@ let categories = [];
 let softTodos = [];
 let hardTodos = [];
 
-async function getTodosFromApiFetch() {
-    let response = await fetch(url, {
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+function categoriesTodos(todos) {
+    todos.forEach(todo => {
+        categories.push(todo.category);
+        if (todo.hard_prio != 0) {
+            hardTodos.push(todo);
+        } else {
+            softTodos.push(todo);
+        }
+    })
+    categories = categories.filter(onlyUnique);
+}
+
+async function getSingleTodoFromApi(todoId) {
+    let response = await fetch(MAIN_URL + `${todoId}/`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
         },
     });
-
     if (response.ok) {
-        let todos = await response.json();
-        todos.forEach(todo => {
-            categories.push(todo.category);
-            if (todo.hard_prio != 0) {
-                hardTodos.push(todo);
-            } else {
-                softTodos.push(todo);
-            }
-        })
-        categories = categories.filter(onlyUnique);
+        const todo = await response.json();
+        return todo
+    } else {
+        console.log("Error");
+        console.log(response);
+    }
+}
+
+async function getTodosFromApiFetch() {
+    let response = await fetch(MAIN_URL, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (response.ok) {
+        const todos = await response.json();
+        categoriesTodos(todos);
         constructSoftPrioCatCols(categories);
         addSoftPrioTodos(softTodos);
         addHardPrioTodos(hardTodos);
@@ -45,14 +68,8 @@ async function getTodosFromApiFetch() {
     }
 }
 
-
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
-
 async function putCallToApi(todoDataDictionary, todoId) {
-    let response = await fetch(url + `${todoId}/`, {
+    let response = await fetch(MAIN_URL + `${todoId}/`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json',
@@ -66,4 +83,4 @@ async function putCallToApi(todoDataDictionary, todoId) {
 };
 
 getTodosFromApiFetch();
-putCallToApi(PUT_TEST_DATA, 1);
+//putCallToApi(PUT_TEST_DATA, 1);

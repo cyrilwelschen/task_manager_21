@@ -5,9 +5,9 @@ function setTodoClickListeners() {
     })
 };
 
-function handleTodoClicked(event) {
+async function handleTodoClicked(event) {
     const todoId = event.target.id.split('-')[1];
-    console.log(todoId);
-    //fillModalFromId(todoId);
-    //modal.style.display = "block";
+    const todo = await getSingleTodoFromApi(todoId);
+    fillModalFromTodo(todo);
+    modal.style.display = "block";
 };
