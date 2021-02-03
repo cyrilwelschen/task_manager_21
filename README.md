@@ -1,3 +1,13 @@
+# Frontend Documentation
+
+## Run main.html as http server
+
+Run
+
+```python -m http.server 1234```
+
+in frontend root folder to server directory on port 1234.
+
 # Backend Documentation
 
 ## Django setup
