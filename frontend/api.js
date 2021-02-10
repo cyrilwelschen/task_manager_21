@@ -76,6 +76,8 @@ async function putTodoToApi(todoDataDictionary, todoId) {
     });
     if (!response.ok) {
         console.log("Put error");
+        console.log(todoDataDictionary);
+        console.log(JSON.stringify(todoDataDictionary));
     }
 };
 
@@ -89,6 +91,8 @@ async function postTodoToApi(todoDataDictionary) {
     });
     if (!response.ok) {
         console.log("Post error");
+        console.log(todoDataDictionary);
+        console.log(JSON.stringify(todoDataDictionary));
     }
 };
 

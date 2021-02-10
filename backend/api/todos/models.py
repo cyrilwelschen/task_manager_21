@@ -7,7 +7,7 @@ from django.utils import timezone
 class Todo(models.Model):
     description = models.CharField(max_length=100)
     category = models.CharField(max_length=20)
-    deadline = models.DateField('deadline')
+    deadline = models.DateField('deadline', null=True)
     creation_date = models.DateTimeField('creation-date', auto_now_add=True)
     is_short_task = models.BooleanField('is-short')
     is_jira = models.BooleanField('is-jira')

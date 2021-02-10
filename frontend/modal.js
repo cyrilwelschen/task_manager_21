@@ -40,6 +40,12 @@ function getDataFromCurrentModal() {
             let key = formElement.id;
             if (formElement.type == "checkbox") {
                 dataDict[key] = formElement.checked;
+            } else if (formElement.type == "date") {
+                if (formElement.value == "") {
+                    dataDict[key] = null;
+                } else {
+                    dataDict[key] = formElement.value;
+                }
             } else {
                 dataDict[key] = formElement.value;
             }
@@ -54,6 +60,8 @@ function openModalForNew() {
         if (formElement.nodeName == "INPUT") {
             if (formElement.type == "checkbox") {
                 formElement.checked = false;
+            } else if (formElement.type == "number") {
+                formElement.value = 0;
             } else {
                 formElement.value = "";
             }
