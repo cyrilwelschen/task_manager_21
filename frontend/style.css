@@ -36,6 +36,18 @@ body {
     height: 20px;
 }
 
+.todo-prio {
+    display: inline-block;
+    text-align: left;
+    font-size: 15px;
+    border: black 1px;
+}
+
+.todo-desc {
+    display: inline-block;
+    text-align: left;
+}
+
 #hard-prio-grid {
     border: solid 1px black;
     margin: 10px 0px;
