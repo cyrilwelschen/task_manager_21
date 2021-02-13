@@ -6,7 +6,7 @@ function setTodoClickListeners() {
 };
 
 async function handleTodoClicked(event) {
-    const todoId = event.target.id.split('-')[1];
+    const todoId = event.currentTarget.id.split('-')[1];
     const todo = await getSingleTodoFromApi(todoId);
     fillModalFromTodo(todo);
     document.getElementById('modal-create-btn').style.display = "none";
