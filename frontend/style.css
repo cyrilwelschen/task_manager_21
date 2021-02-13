@@ -1,11 +1,18 @@
+:root {
+    --blue: #0081A7;
+    --green: #00AFB9;
+    --yellow: #FDFCDC;
+    --orange: #FED9B7;
+    --red: #F07167;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .cat-header {
-    background-color: yellow;
+    background-color: var(--green);
     text-align: center;
-    margin: 6px 3px;
 }
 
 .cat-col {
@@ -28,33 +35,9 @@ body {
     display: inline;
 }
 
-.todo {
-    text-align: left;
-    padding: 5px;
-    margin: 5px;
-    background-color: lightblue;
-    height: 20px;
-}
-
-.todo-prio {
-    display: inline-block;
-    text-align: left;
-    font-size: 15px;
-    border: black 1px;
-}
-
-.todo-desc {
-    display: inline-block;
-    text-align: left;
-}
-
 #hard-prio-grid {
     border: solid 1px black;
     margin: 10px 0px;
-}
-
-.hp-todo {
-    background-color: lightgreen;
 }
 
 #main-add-button {
@@ -66,4 +49,47 @@ body {
     text-decoration: none;
     display: inline-block;
     width: 100%;
+}
+
+.todo {
+    display: block;
+    background: var(--blue);
+    border-radius: 6px;
+    padding: 5px 10px;
+    color: white;
+    position: relative;
+    margin: 5px 0px;
+}
+
+.todo-text {
+    display: inline-block;
+    width: 75%;
+}
+
+.inline-indicator {
+    display: inline-block;
+    position: absolute;
+}
+
+.prio {
+    right: 8px;
+}
+
+.days {
+    color: yellow;
+    font-weight: bold;
+    right: 38px;
+}
+
+.short {
+    right: 75px;
+    font-style: italic;
+    color: var(--yellow);
+    font-weight: bold;
+}
+
+.jira {
+    right: 88px;
+    font-style: italic;
+    color: var(--orange);
 }

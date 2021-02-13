@@ -32,14 +32,27 @@ function sortTodosFromPrio(todos, prio) {
     return todos.sort((a, b) => (a.soft_prio > b.soft_prio) ? -1 : 1);
 }
 
+function createAndAddStandardEl(classes, value, parent) {
+    const newEl = document.createElement('div');
+    newEl.classList.add(...classes);
+    newEl.innerHTML = value;
+    parent.appendChild(newEl);
+}
+
 function addHardPrioTodos(todos) {
     const sortedTodos = sortTodosFromPrio(todos, "hard_prio");
     sortedTodos.forEach(todo => {
         const todoDiv = document.createElement('div');
-        todoDiv.className = 'todo hp-todo';
-        todoDiv.innerHTML = todo.description;
+        todoDiv.className = 'todo';
         todoDiv.title = JSON.stringify(todo, null, 2);
         todoDiv.setAttribute('id', `todo-${getTodoIdFromUrl(todo.url)}`);
+        const baseCl = ["inline-indicator"];
+        createAndAddStandardEl(['todo-text'], todo.description, todoDiv);
+        createAndAddStandardEl(baseCl.concat('days'), "5d", todoDiv);
+        if (todo.is_jira) { createAndAddStandardEl(baseCl.concat('jira'), "J", todoDiv) };
+        if (todo.is_short_task) { createAndAddStandardEl(baseCl.concat('short'), "S", todoDiv) };
+
+        createAndAddStandardEl(baseCl.concat('prio'), todo.hard_prio, todoDiv);
         const catDiv = document.getElementById('hard-prio-grid');
         catDiv.appendChild(todoDiv);
     })
