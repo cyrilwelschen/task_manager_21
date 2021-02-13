@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+     :root {
+        --blue: #0081A7;
+        --green: #00AFB9;
+        --yellow: #FDFCDC;
+        --orange: #FED9B7;
+        --red: #F07167;
+    }
+    
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    
+    .sodo {
+        display: block;
+        background: var(--blue);
+        border-radius: 6px;
+        width: 300px;
+        padding: 5px 10px;
+        position: absolute;
+        left: 30%;
+        top: 10%;
+        color: white;
+    }
+    
+    .todo-text {
+        display: inline-block;
+        width: 75%;
+    }
+    
+    .inline-indicator {
+        display: inline-block;
+        position: absolute;
+    }
+    
+    .prio {
+        right: 8px;
+    }
+    
+    .days {
+        color: yellow;
+        font-weight: bold;
+        right: 38px;
+    }
+    
+    .short {
+        right: 75px;
+        font-style: italic;
+        color: var(--yellow);
+        font-weight: bold;
+    }
+    
+    .jira {
+        right: 88px;
+        font-style: italic;
+        color: var(--orange);
+    }
+</style>
+
+<body>
+    <div class="sodo">
+        <div class="todo-text">
+            Nach hause gehen
+        </div>
+        <div class="inline-indicator prio">-4</div>
+        <div class="inline-indicator days">5d</div>
+        <div class="inline-indicator short">S</div>
+        <div class="inline-indicator jira">J</div>
+    </div>
+    <div class="sodo" style="top: 120px;">
+        <div class="todo-text">
+            Todo Nummer 2 ver long lon long long
+        </div>
+        <div class="inline-indicator prio">0</div>
+    </div>
+</body>
+
+</html>
