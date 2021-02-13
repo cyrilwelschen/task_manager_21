@@ -39,8 +39,15 @@ function createAndAddStandardEl(classes, value, parent) {
     parent.appendChild(newEl);
 }
 
+function dayTextFromDate(todoDate) {
+    const dateDiff = new Date(todoDate) - new Date();
+    const days = Math.floor(dateDiff / (60 * 60 * 1000 * 24));
+    return `${days}d`;
+}
+
 function addHardPrioTodos(todos) {
     const sortedTodos = sortTodosFromPrio(todos, "hard_prio");
+
     sortedTodos.forEach(todo => {
         const todoDiv = document.createElement('div');
         todoDiv.className = 'todo';
@@ -48,7 +55,7 @@ function addHardPrioTodos(todos) {
         todoDiv.setAttribute('id', `todo-${getTodoIdFromUrl(todo.url)}`);
         const baseCl = ["inline-indicator"];
         createAndAddStandardEl(['todo-text'], todo.description, todoDiv);
-        createAndAddStandardEl(baseCl.concat('days'), "5d", todoDiv);
+        if (todo.deadline) { createAndAddStandardEl(baseCl.concat('days'), dayTextFromDate(todo.deadline), todoDiv) };
         if (todo.is_jira) { createAndAddStandardEl(baseCl.concat('jira'), "J", todoDiv) };
         if (todo.is_short_task) { createAndAddStandardEl(baseCl.concat('short'), "S", todoDiv) };
 
