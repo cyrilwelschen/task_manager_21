@@ -12,19 +12,6 @@ function constructSoftPrioCatCols(categories) {
     });
 }
 
-function addSoftPrioTodos(todos) {
-    const sortedTodos = sortTodosFromPrio(todos, "soft_prio");
-    sortedTodos.forEach(todo => {
-        const todoDiv = document.createElement('div');
-        todoDiv.className = 'todo';
-        todoDiv.innerHTML = todo.description;
-        todoDiv.title = JSON.stringify(todo, null, 2);
-        todoDiv.setAttribute('id', `todo-${getTodoIdFromUrl(todo.url)}`);
-        const catDiv = document.getElementById(todo.category);
-        catDiv.appendChild(todoDiv);
-    })
-}
-
 function sortTodosFromPrio(todos, prio) {
     if (prio == "hard_prio") {
         return todos.sort((a, b) => (a.hard_prio > b.hard_prio) ? -1 : 1);
@@ -45,9 +32,16 @@ function dayTextFromDate(todoDate) {
     return `${days}d`;
 }
 
-function addHardPrioTodos(todos) {
-    const sortedTodos = sortTodosFromPrio(todos, "hard_prio");
+function addSoftPrioTodos(todos) {
+    addPrioTodos(todos, "soft")
+}
 
+function addHardPrioTodos(todos) {
+    addPrioTodos(todos, "hard")
+}
+
+function addPrioTodos(todos, prioType) {
+    const sortedTodos = sortTodosFromPrio(todos, `${prioType}_prio`);
     sortedTodos.forEach(todo => {
         const todoDiv = document.createElement('div');
         todoDiv.className = 'todo';
@@ -58,9 +52,10 @@ function addHardPrioTodos(todos) {
         if (todo.deadline) { createAndAddStandardEl(baseCl.concat('days'), dayTextFromDate(todo.deadline), todoDiv) };
         if (todo.is_jira) { createAndAddStandardEl(baseCl.concat('jira'), "J", todoDiv) };
         if (todo.is_short_task) { createAndAddStandardEl(baseCl.concat('short'), "S", todoDiv) };
-
-        createAndAddStandardEl(baseCl.concat('prio'), todo.hard_prio, todoDiv);
-        const catDiv = document.getElementById('hard-prio-grid');
+        const prioNumber = (prioType == "hard") ? todo.hard_prio : todo.soft_prio;
+        createAndAddStandardEl(baseCl.concat('prio'), prioNumber, todoDiv);
+        const parentElId = (prioType == "hard") ? 'hard-prio-grid' : todo.category
+        let catDiv = document.getElementById(parentElId);
         catDiv.appendChild(todoDiv);
     })
 }
