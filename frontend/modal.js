@@ -41,7 +41,7 @@ function getDataFromCurrentModal() {
             if (formElement.type == "checkbox") {
                 dataDict[key] = formElement.checked;
             } else if (formElement.type == "date") {
-                dataDict[key] = (formElement.type == "date") ? dataDict[key] = null : formElement.value;
+                dataDict[key] = (formElement.value == "") ? dataDict[key] = null : formElement.value;
             } else {
                 dataDict[key] = formElement.value;
             }

@@ -23,6 +23,7 @@ document.getElementById('modal-cancle-btn').addEventListener('click', ev => {
 document.getElementById('modal-put-btn').addEventListener('click', ev => {
     ev.preventDefault();
     let newData = getDataFromCurrentModal();
+    console.log(newData);
     putTodoToApi(newData, getModalId())
     closeModal();
 });
