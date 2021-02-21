@@ -15,43 +15,38 @@ function setModalCreationDayDiv(jsDateString) {
     dateDiv.innerHTML = `Creation Date: ${jsDateString.split('T')[0]}`
 }
 
+function setModalInputField(inputField, value) {
+    if (inputField.type == "checkbox") {
+        inputField.checked = value;
+    } else {
+        inputField.value = value;
+    }
+}
+
+function setModalAdditionalInfoDiv(apiKey, value) {
+    if (apiKey == "url") { setTodoIdOnModal(value) };
+    if (apiKey == "creation_date") { setModalCreationDayDiv(value) };
+}
+
 function fillModalFromTodo(todo) {
     for (const [apiKey, val] of Object.entries(todo)) {
         let currentInput = document.getElementById(apiKey);
-        if (currentInput) {
-            if (currentInput.type == "checkbox") {
-                currentInput.checked = val;
-            } else {
-                currentInput.value = val;
-            }
-        } else {
-            if (apiKey == "url") { setTodoIdOnModal(val); continue };
-            if (apiKey == "creation_date") { setModalCreationDayDiv(val); continue };
-            console.log("API Key unknown: " + apiKey);
-        }
+        (currentInput) ? setModalInputField(currentInput, val): setModalAdditionalInfoDiv(apiKey, val);
     }
 }
 
-let dataDict = {};
-
 function getCurrentValueOfInputField(formElement) {
-    let curValue;
-    if (formElement.type == "checkbox") {
-        curValue = formElement.checked;
-    } else if (formElement.type == "date") {
-        curValue = (formElement.value == "") ? null : formElement.value;
-    } else {
-        curValue = formElement.value;
-    }
-    return curValue
+    if (formElement.type == "checkbox") { return formElement.checked };
+    if (formElement.type == "date") { return (formElement.value == "") ? null : formElement.value };
+    return formElement.value;
 }
 
 function getDataFromCurrentModal() {
+    let dataDict = {};
     const inputs = getFormInputElements();
     for (formElement of inputs) {
         if (formElement.nodeName == "INPUT") {
-            const curValue = getCurrentValueOfInputField(formElement);
-            dataDict[formElement.id] = curValue;
+            dataDict[formElement.id] = getCurrentValueOfInputField(formElement);
         }
     }
     return dataDict;
