@@ -10,7 +10,7 @@ function getTodoIdFromModal(url) {
     return idDiv.innerHTML.split(" ")[2]
 }
 
-function setModalCreatedDays(jsDateString) {
+function setModalCreationDayDiv(jsDateString) {
     const dateDiv = document.getElementById('created-modal-div');
     dateDiv.innerHTML = `Creation Date: ${jsDateString.split('T')[0]}`
 }
@@ -26,25 +26,32 @@ function fillModalFromTodo(todo) {
             }
         } else {
             if (apiKey == "url") { setTodoIdOnModal(val); continue };
-            if (apiKey == "creation_date") { setModalCreatedDays(val); continue };
+            if (apiKey == "creation_date") { setModalCreationDayDiv(val); continue };
             console.log("API Key unknown: " + apiKey);
         }
     }
 }
 
+let dataDict = {};
+
+function getCurrentValueOfInputField(formElement) {
+    let curValue;
+    if (formElement.type == "checkbox") {
+        curValue = formElement.checked;
+    } else if (formElement.type == "date") {
+        curValue = (formElement.value == "") ? null : formElement.value;
+    } else {
+        curValue = formElement.value;
+    }
+    return curValue
+}
+
 function getDataFromCurrentModal() {
-    let dataDict = {};
     const inputs = getFormInputElements();
     for (formElement of inputs) {
         if (formElement.nodeName == "INPUT") {
-            let key = formElement.id;
-            if (formElement.type == "checkbox") {
-                dataDict[key] = formElement.checked;
-            } else if (formElement.type == "date") {
-                dataDict[key] = (formElement.value == "") ? dataDict[key] = null : formElement.value;
-            } else {
-                dataDict[key] = formElement.value;
-            }
+            const curValue = getCurrentValueOfInputField(formElement);
+            dataDict[formElement.id] = curValue;
         }
     }
     return dataDict;

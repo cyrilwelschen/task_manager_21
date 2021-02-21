@@ -20,6 +20,7 @@ async function handleTodoClicked(event) {
     const todoId = getTodoIdFromClickEvent(event);
     const todo = await getSingleTodoFromApi(todoId);
     fillModalFromTodo(todo);
+    setModalButtonsForUpdate();
     showModal();
 };
 
