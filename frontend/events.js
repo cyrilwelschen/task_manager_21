@@ -1,18 +1,26 @@
 function setTodoClickListeners() {
-    let allDrawnTodoDivs = document.getElementsByClassName("todo");
-    [...allDrawnTodoDivs].forEach(todoDiv => {
+    drawnTodos = getAllHtmlElementsOfClassTodo();
+    drawnTodos.forEach(todoDiv => {
         todoDiv.addEventListener('click', handleTodoClicked);
     })
 };
 
+function getAllHtmlElementsOfClassTodo() {
+    let allDrawnTodoDivs = document.getElementsByClassName("todo");
+    return [...allDrawnTodoDivs]
+}
+
+
+function getTodoIdFromClickEvent(event) {
+    return event.currentTarget.id.split('-')[1];
+}
+
+
 async function handleTodoClicked(event) {
-    const todoId = event.currentTarget.id.split('-')[1];
+    const todoId = getTodoIdFromClickEvent(event);
     const todo = await getSingleTodoFromApi(todoId);
     fillModalFromTodo(todo);
-    document.getElementById('modal-create-btn').style.display = "none";
-    document.getElementById('modal-put-btn').style.display = "inline-block";
-    document.getElementById('modal-delete-btn').style.display = "inline-block";
-    modal.style.display = "block";
+    showModal();
 };
 
 document.getElementById('modal-cancle-btn').addEventListener('click', ev => {
@@ -24,7 +32,7 @@ document.getElementById('modal-put-btn').addEventListener('click', ev => {
     ev.preventDefault();
     let newData = getDataFromCurrentModal();
     console.log(newData);
-    putTodoToApi(newData, getModalId())
+    putTodoToApi(newData, getTodoIdFromModal())
     closeModal();
 });
 
@@ -37,6 +45,8 @@ document.getElementById('modal-create-btn').addEventListener('click', ev => {
 
 document.getElementById('modal-delete-btn').addEventListener('click', ev => {
     ev.preventDefault();
-    deleteTodoInApi(getModalId());
+    deleteTodoInApi(getTodoIdFromModal());
     closeModal();
 });
+
+window.onclick = closeModalIfClickedOutside;
